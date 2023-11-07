@@ -100,9 +100,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     try:
         await hass.async_add_executor_job(
             partial(
-                openai.Engine.list,
-                api_key=entry.data[CONF_API_KEY],
-                request_timeout=10,
+                openai.models.list,
+                # api_key=entry.data[CONF_API_KEY],
+                # request_timeout=10,
             )
         )
     except error.AuthenticationError as err:
