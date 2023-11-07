@@ -6,7 +6,7 @@ import logging
 from typing import Literal
 
 import openai
-from openai import error
+#from openai import error
 import voluptuous as vol
 
 from homeassistant.components import conversation
@@ -53,14 +53,25 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     async def render_image(call: ServiceCall) -> ServiceResponse:
         """Render an image with dall-e."""
         try:
-            response = await openai.Image.acreate(
-                api_key=hass.data[DOMAIN][call.data["config_entry"]],
-                prompt=call.data["prompt"],
-                n=1,
-                size=f'{call.data["size"]}x{call.data["size"]}',
+            client = openai.OpenAI(api_key=hass.data[DOMAIN][call.data["config_entry"]])
+            response = await client.images.generate(
+              model="dall-e-3",
+              prompt=call.data["prompt"],
+              size=f'{call.data["size"]}x{call.data["size"]}',
+              quality="standard",
+              n=1
             )
-        except error.OpenAIError as err:
-            raise HomeAssistantError(f"Error generating image: {err}") from err
+            # response = await openai.Image.acreate(
+            #     api_key=hass.data[DOMAIN][call.data["config_entry"]],
+            #     prompt=call.data["prompt"],
+            #     n=1,
+            #     size=f'{call.data["size"]}x{call.data["size"]}',
+            # )
+        except openai.error.APIError as e:
+          #Handle API error, e.g. retry or log
+          print(f"OpenAI API returned an API Error: {e}")        
+        # except error.OpenAIError as err:
+        #     raise HomeAssistantError(f"Error generating image: {err}") from err
 
         return response["data"][0]
 
