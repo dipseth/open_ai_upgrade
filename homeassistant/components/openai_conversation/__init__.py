@@ -67,7 +67,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             #     n=1,
             #     size=f'{call.data["size"]}x{call.data["size"]}',
             # )
-        except openai.error.APIError as e:
+        except openai._exceptions.APIError as e:
           #Handle API error, e.g. retry or log
           print(f"OpenAI API returned an API Error: {e}")        
         # except error.OpenAIError as err:
