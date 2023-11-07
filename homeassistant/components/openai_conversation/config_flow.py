@@ -59,8 +59,8 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> None:
 
     Data has the keys from STEP_USER_DATA_SCHEMA with values provided by the user.
     """
-    openai.api_key = data[CONF_API_KEY]
-    await hass.async_add_executor_job(partial(openai.Engine.list, request_timeout=10))
+    .api_key = data[CONF_API_KEY]
+    await hass.async_add_executor_job(partial(openai.models.list, request_timeout=10))
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
