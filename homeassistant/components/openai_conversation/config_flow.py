@@ -8,7 +8,7 @@ from types import MappingProxyType
 from typing import Any
 
 import openai
-from openai import error
+#from openai import error
 import voluptuous as vol
 
 from homeassistant import config_entries
