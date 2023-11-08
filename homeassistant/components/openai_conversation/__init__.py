@@ -106,10 +106,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 # request_timeout=10,
             )
         )
-    except error.AuthenticationError as err:
+    except openai._exceptions.AuthenticationError as err:
         _LOGGER.error("Invalid API key: %s", err)
         return False
-    except error.OpenAIError as err:
+    except openai._exceptions.OpenAIError as err:
         raise ConfigEntryNotReady(err) from err
 
     hass.data.setdefault(DOMAIN, {})[entry.entry_id] = entry.data[CONF_API_KEY]

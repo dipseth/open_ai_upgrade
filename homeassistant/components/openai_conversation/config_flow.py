@@ -81,9 +81,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         try:
             await validate_input(self.hass, user_input)
-        except error.APIConnectionError:
+        except openai._exceptions.APIConnectionError:
             errors["base"] = "cannot_connect"
-        except error.AuthenticationError:
+        except openai._exceptions.AuthenticationError:
             errors["base"] = "invalid_auth"
         except Exception:  # pylint: disable=broad-except
             _LOGGER.exception("Unexpected exception")
