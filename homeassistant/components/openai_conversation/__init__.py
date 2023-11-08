@@ -52,9 +52,9 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 
     async def render_image(call: ServiceCall) -> ServiceResponse:
         """Render an image with dall-e."""
-        try:
-            client = openai.OpenAI(api_key=hass.data[DOMAIN][call.data["config_entry"]])
-            response = await client.images.generate(
+        # try:
+        client = openai.OpenAI(api_key=hass.data[DOMAIN][call.data["config_entry"]])
+        response = client.images.generate(
               model="dall-e-3",
               prompt=call.data["prompt"],
               size=f'{call.data["size"]}x{call.data["size"]}',
@@ -67,13 +67,14 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
             #     n=1,
             #     size=f'{call.data["size"]}x{call.data["size"]}',
             # )
-        except openai._exceptions.APIError as e:
-          #Handle API error, e.g. retry or log
-          print(f"OpenAI API returned an API Error: {e}")        
-        # except error.OpenAIError as err:
-        #     raise HomeAssistantError(f"Error generating image: {err}") from err
+        # except openai._exceptions.APIError as e:
+        #   #Handle API error, e.g. retry or log
+        #   print(f"OpenAI API returned an API Error: {e}")        
+        # # except error.OpenAIError as err:
+        # #     raise HomeAssistantError(f"Error generating image: {err}") from err
 
-        return response["data"][0]
+        image_url = response.data[0].url
+        return {"url":image_url}
 
     hass.services.async_register(
         DOMAIN,
