@@ -173,7 +173,7 @@ class OpenAIAgent(conversation.AbstractConversationAgent):
         _LOGGER.debug("Prompt for %s: %s", model, messages)
 
         try:
-            client = OpenAI(api_key=self.entry.data[CONF_API_KEY])
+            client = openai.OpenAI(api_key=self.entry.data[CONF_API_KEY])
             result = await client.chat.completions.create(
                # api_key=self.entry.data[CONF_API_KEY],
                 model=model,
